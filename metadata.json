@@ -1,0 +1,21 @@
+{
+  "name": "institutostela-pdi",
+  "version": "0.1.0",
+  "author": "Instituto Stela",
+  "summary": "Puppet module to install Pentaho Data Integration (a.k.a KETTLE)",
+  "license": "Apache 2.0",
+  "source": "https://github.com/instituto-stela/puppet-pdi",
+  "project_page": "https://github.com/instituto-stela/puppet-pdi",
+  "issues_url": "https://github.com/instituto-stela/puppet-pdi/issues",
+  "tags": [
+    "pentaho data integration",
+    "pdi",
+    "kettle"
+  ],
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 1.0.0"
+    }
+  ]
+}
