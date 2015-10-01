@@ -4,12 +4,6 @@
 # Especially for Docker containers and other striped down systems.
 #
 class pdi::config::linux {
-  if ! defined(Package['wget']) {
-    package { 'wget':
-      ensure => present,
-    }
-  }
-
   if ! defined(Package['curl']) {
     package { 'curl':
       ensure => present,

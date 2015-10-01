@@ -50,6 +50,7 @@ define pdi::install (
   $pdi_startup_branch  = 'master'
 ) {
   include pdi::config
+  include pdi::params
 
   $_installer_name = "pdi-installer-${version}.zip"
   $_installer_path = "/tmp/${_installer_name}"
@@ -63,15 +64,17 @@ define pdi::install (
   }
 
   exec{ "download-pdi-${version}":
-    command => "wget ${url} -O ${_installer_path}",
+    command => "curl -s -L ${url} -o ${_installer_path}",
+    path    => $pdi::params::path,
     cwd     => '/tmp',
     creates => $installer_path,
     onlyif  => $onlyif,
-    require => [Package['wget']]
+    require => [Package['curl']]
   }
 
   exec{ "install-pdi-${version}":
     command => "unzip -o ${_installer_path} -d ${_install_path} && mv ${_install_path}/data-integration/* ${_install_path} && rm -rf ${_install_path}/data-integration",
+    path    => $pdi::params::path,
     creates => "${_install_path}/spoon.sh",
     cwd     => '/tmp',
     onlyif  => $onlyif,
@@ -83,6 +86,7 @@ define pdi::install (
 
   exec{ "chmod-pdi-${version}":
     command => "chmod +x ${_installer_path}/*.sh",
+    path    => $pdi::params::path,
     cwd     => '/tmp',
     onlyif  => $onlyif,
     require => [Exec["install-pdi-${version}"]]
@@ -91,6 +95,7 @@ define pdi::install (
   if $pdi_startup_version != undef {
     exec{ "install-pdi-startup-${version}":
       command => "curl -L https://github.com/instituto-stela/pdi-startup/raw/develop/install.sh | sh -s -- --version ${pdi_startup_version} --branch ${pdi_startup_branch}",
+      path    => $pdi::params::path,
       cwd     => "${_install_path}",
       creates => "${_install_path}/ps-spoon.sh",
       require => [

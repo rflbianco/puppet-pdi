@@ -9,10 +9,6 @@
 # Learn more about module testing here:
 # http://docs.puppetlabs.com/guides/tests_smoke.html
 #
-Exec {
-	path => '/usr/bin:/bin:/usr/local/bin'
-}
-
 
 pdi::install { '4.2.1':
   version             => '4.2.1',
